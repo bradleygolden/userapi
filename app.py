@@ -176,12 +176,12 @@ api_v1.add_url_rule('/users/<string:username>', view_func=user_view,
 app.register_blueprint(api_v1)
 
 if __name__ == "__main__":
-    if config_obj.TESTING is True:
+    if config_obj.TESTING:
         db.drop_all()
 
     db.create_all()
 
-    if config_obj.TESTING is True:
+    if config_obj.TESTING or config_obj.DEBUG:
         user = User(username='admin')
         if not User.query.filter_by(username=user.username).first():
             user.hash_password('admin')
