@@ -6,13 +6,13 @@ The database default for production is postgres but you can very easily change t
 
 ## Setup
 
-##### Set environment variables
+#### Set environment variables
 ```
 $ export FLASK_ENV=dev|qa|prod
 $ export FLASK_APP=$(pwd)/app.py
 ```
 
-##### Prod
+#### Prod
 ```
 # create postgres database named 'userapi'
 # pip install psycopg2
