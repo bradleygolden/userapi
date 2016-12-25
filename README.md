@@ -12,7 +12,7 @@ $ export FLASK_ENV=dev|qa|prod
 $ export FLASK_APP=$(pwd)/app.py
 ```
 
-#### Install dependencies from PIP
+#### Install dependencies via pip
 ```
 $ pip install -r requirements.txt
 ```
