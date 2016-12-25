@@ -2,7 +2,7 @@
 
 userapi is a simple Flask api for managing users. It's meant to be small and lightweight.
 
-The default database for production is postgres but you can very easily change that in the config.py file yourself by changing the ```SQLALCHEMY_DATABASE_URI``` value.
+The default database for production is postgres but you can very easily change that in the config.py file yourself by changing the ```SQLALCHEMY_DATABASE_URI``` value to a [valid connection string](http://docs.sqlalchemy.org/en/latest/core/engines.html).
 
 ## Setup
 
