@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Flask
+config.py
+migrations
+
+# Mac
+.DS_Store
