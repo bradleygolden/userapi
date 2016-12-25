@@ -17,7 +17,7 @@ $ export FLASK_APP=$(pwd)/app.py
 $ pip install -r requirements.txt
 ```
 
-#### Prod
+#### Production
 ```
 # create postgres database named 'userapi'
 $ pip install psycopg2 (or other db driver)
