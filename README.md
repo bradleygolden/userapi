@@ -1,6 +1,7 @@
 # userapi
 
 [![Build Status](https://travis-ci.org/bradleygolden/userapi.svg?branch=master)](https://travis-ci.org/bradleygolden/userapi)
+[![Coverage Status](https://coveralls.io/repos/github/bradleygolden/userapi/badge.svg?branch=master)](https://coveralls.io/github/bradleygolden/userapi?branch=master)
 
 userapi is a simple Flask api for managing users. It's meant to be small and lightweight.
 
@@ -42,5 +43,5 @@ $ python app.py
 
 #### Prod
 ```
-$ gunicorn --bind <ip>:<port> wsgi
+$ gunicorn --bind 0.0.0.0:8000 wsgi
 ```

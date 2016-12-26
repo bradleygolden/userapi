@@ -1,8 +1,7 @@
 """This is a simple user api for creating and storing users."""
 
 import os
-from flask import Flask, request, jsonify, abort, g, send_from_directory, \
-    Blueprint
+from flask import Flask, request, jsonify, abort, g, Blueprint
 from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
 from config import config
@@ -33,6 +32,7 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, index=True, unique=True)
+    email = db.Column(db.String)
     password_hash = db.Column(db.String)
     avatar = db.Column(db.String)
 
@@ -73,10 +73,19 @@ users_schema = UserSchema(many=True)
 
 
 @auth.verify_password
-def verify_password(username_or_token, password):
+def verify_password(username_or_token=None, password=None):
     """Callback for verifying a username and password or token."""
     # first try to authenticate by token in header or url
-    user = User.verify_auth_token(username_or_token) or User.verify_auth_token(request.args.get('token', ''))
+    verify_token_in_header = None
+    if username_or_token:
+        verify_token_in_header = User.verify_auth_token(username_or_token)
+
+    verify_token_as_param = None
+    if not username_or_token:
+        token = request.args.get('token', '')
+        verify_token_as_param = User.verify_auth_token(token)
+
+    user = verify_token_in_header or verify_token_as_param
     if not user:
         # try to authenticate with username/password
         user = User.query.filter_by(username=username_or_token).first()
@@ -131,13 +140,14 @@ class UserAPI(MethodView):
 
     def post(self):
         """Create a new user."""
-        username = request.args.get('username')
         password = request.args.get('password')
+        username = request.args.get('username')
+        email = request.args.get('email')
         if username is None or password is None:
             abort(400)  # missing arguments
         if User.query.filter_by(username=username).first() is not None:
             abort(400)  # existing user
-        user = User(username=username)
+        user = User(username=username, email=email)
         user.hash_password(password)
         db.session.add(user)
         db.session.commit()
@@ -147,12 +157,15 @@ class UserAPI(MethodView):
     def put(self, username):
         """Update a user."""
         new_username = request.args.get('new_username')
-        password = request.args.get('new_password')
+        new_password = request.args.get('new_password')
+        new_email = request.args.get('new_email')
         user = User.query.filter_by(username=username).first_or_404()
         if new_username and new_username != username:
             user.username = new_username
-        if password:
-            user.hash_password(password)  # update password
+        if new_email:
+            user.email = new_email
+        if new_password:
+            user.hash_password(new_password)  # update password
         db.session.commit()
         serialized_user = user_schema.dump(user).data
         return jsonify(serialized_user), 200
