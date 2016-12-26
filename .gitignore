@@ -89,7 +89,7 @@ ENV/
 .ropeproject
 
 # Flask
-config.py
+# config.py
 migrations
 
 # Mac
