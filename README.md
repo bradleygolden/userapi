@@ -11,7 +11,7 @@ The default database for production is postgres but you can very easily change t
 
 #### Set environment variables
 ```
-$ export FLASK_ENV=dev|qa|prod
+$ export FLASK_ENV=dev|test|prod
 $ export FLASK_APP=$(pwd)/app.py
 ```
 
@@ -20,28 +20,47 @@ $ export FLASK_APP=$(pwd)/app.py
 $ pip install -r requirements.txt
 ```
 
-#### Production
+#### Setup database
+Note: If FLASK_ENV is set to dev or test, you can ignore this step. SQLite is used by default.
 ```
-# create postgres database named 'userapi'
-$ pip install psycopg2 (or other db driver)
+# install database dependencies
+$ pip install psycopg2
+
+# create a postgres database named 'userapi'
+```
+
+#### Perform database migrations
+```
 $ flask db init
 $ flask db migrate
 $ flask db upgrade
+```
+
+#### Create an api user
+```
+python -c "import app; app.create_user('username', 'password')"
 ```
 
 ## Run
 
 #### Development
 ```
-$ python app.py
-```
-
-#### QA
-```
-$ python app.py
+$ flask run
 ```
 
 #### Prod
 ```
 $ gunicorn --bind 0.0.0.0:8000 wsgi
+```
+
+## Testing
+
+#### Install testing dependencies
+```
+$ pip install -r testrequirements.txt
+```
+
+#### Run tests and generate coverage report
+```
+$ py.test --cov-report=term-missing --cov=app tests/
 ```

@@ -11,7 +11,7 @@ class DevConfig(DefaultConfig):
     SECRET_KEY = 'a very secret key'
 
 
-class QAConfig(DefaultConfig):
+class TestConfig(DefaultConfig):
     DEBUG = False
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/users.db'
@@ -26,8 +26,8 @@ class ProdConfig(DefaultConfig):
 
 
 config = {
-    'default': DefaultConfig,
+    'default': DevConfig,
     'dev': DevConfig,
-    'qa': QAConfig,
+    'test': TestConfig,
     'prod': ProdConfig
 }

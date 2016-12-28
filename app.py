@@ -188,17 +188,10 @@ api_v1.add_url_rule('/users/<string:username>', view_func=user_view,
 # register_blueprints
 app.register_blueprint(api_v1)
 
-if __name__ == "__main__":
-    if config_obj.TESTING:
-        db.drop_all()
 
-    db.create_all()
-
-    if config_obj.TESTING or config_obj.DEBUG:
-        user = User(username='admin')
-        if not User.query.filter_by(username=user.username).first():
-            user.hash_password('admin')
-            db.session.add(user)
-            db.session.commit()
-
-    app.run(port=5000)
+def create_user(username, password):
+    user = User(username=username)
+    if not User.query.filter_by(username=user.username).first():
+        user.hash_password(password)
+        db.session.add(user)
+        db.session.commit()
