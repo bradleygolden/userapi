@@ -22,7 +22,7 @@ class ProdConfig(DefaultConfig):
     DEBUG = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/userapi'
-    SECRET_KEY = "\xdb\x04\xb2S\xdf!n\x85F\x03\x13\xfe\xb9+\xab\x86\x82\xda'\xd1w\x1d\xacY"
+    SECRET_KEY = 'keep this key secret!'
 
 
 config = {
